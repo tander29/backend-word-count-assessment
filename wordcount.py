@@ -40,7 +40,34 @@ print_words() and print_top().
 """
 
 import sys
+import operator
 
+
+def get_words(filename):
+    f = open(filename, 'r')
+    file_string = f.read().lower()
+    f.close()
+    return file_string
+
+
+def print_words(filename):
+    print('print me some words', filename)
+    file_string = get_words(filename)
+    all_words = file_string.split()
+    set_words = sorted(set(all_words))
+    for word in set_words:
+        print(word, file_string.count(word))
+
+
+def print_top(filename):
+    top_twenty = []
+    file_string = get_words(filename)
+    all_words = file_string.split()
+    set_words = set(all_words)
+    for word in set_words:
+        top_twenty.append((word, file_string.count(word)))
+    top_twenty = sorted(top_twenty, key=lambda tup: tup[1], reverse=True)
+    print(top_twenty[:20])
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
@@ -54,12 +81,16 @@ import sys
 
 
 def main():
+    print(sys.argv[1])
+    print('look above')
+    print(sys.argv[0])
     if len(sys.argv) != 3:
         print 'usage: ./wordcount.py {--count | --topcount} file'
         sys.exit(1)
 
     option = sys.argv[1]
     filename = sys.argv[2]
+    print('option!!!!!', option)
     if option == '--count':
         print_words(filename)
     elif option == '--topcount':
